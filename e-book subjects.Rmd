@@ -3,8 +3,15 @@ title: "Ebook Subjects"
 output: github_document
 ---
 
+```{r message = FALSE}
+# load libraries
+library(tidyverse)
+```
+
+
+
 ```{r}
 # import and combine usage files
-
+title_report <- read_excel("proquest_tr_fy21.xlsx", skip = 13)
 ```
 
