@@ -6,12 +6,16 @@ output: github_document
 ```{r message = FALSE}
 # load libraries
 library(tidyverse)
+library(readxl)
 ```
 
 
 
 ```{r}
 # import and combine usage files
-title_report <- read_excel("proquest_tr_fy21.xlsx", skip = 13)
+files <- dir(pattern = ".xlsx")
+title_report <- files %>%
+  map(read_excel, skip = 13) %>%
+  reduce(rbind)
 ```
 
