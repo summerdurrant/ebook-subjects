@@ -13,7 +13,7 @@ library(readxl)
 
 ```{r}
 # import and combine usage files
-files <- dir(pattern = ".xlsx")
+files <- dir(path = "./usage-stats", full.names = TRUE)
 title_report <- files %>%
   map(read_excel, skip = 13) %>%
   reduce(rbind)
