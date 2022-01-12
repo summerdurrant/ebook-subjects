@@ -25,8 +25,10 @@ tr <- files %>%
 ```{r}
 # filter title report to only include books
 tr_books <- tr %>%
-  filter(data_type == "Book") %>%
-  filter(metric_type == c("Unique_Title_Requests", "No_License", "Limit_Exceeded"))
+  filter(data_type == "Book")
+  
+tr_books_metrics <- tr_books %>%  
+  filter(metric_type == "Unique_Title_Requests")
   
 
 ```
