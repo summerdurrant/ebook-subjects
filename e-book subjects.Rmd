@@ -6,16 +6,26 @@ output: github_document
 ```{r message = FALSE}
 # load libraries
 library(tidyverse)
-library(readxl)
 ```
 
 
 
 ```{r}
-# import and combine usage files
+# import and combine monthly usage files
 files <- dir(path = "./usage-stats", full.names = TRUE)
-title_report <- files %>%
-  map(read_excel, skip = 13) %>%
-  reduce(rbind)
+headers <- c("title", "publisher", "publisher_id", "platform", "doi", 
+                "proprietary_id", "isbn", "print_issn", "online_issn", "uri", 
+                "data_type", "section_type", "yop", "access_type", 
+                "access_method","metric_type", "total")
+
+tr <- files %>%
+  map(read_csv, skip = 14, col_select = 1:17, col_names = headers, 
+      col_type = "cccccccccccciccci") %>%
+  reduce(bind_rows)
+```
+
+```{r}
+# filter title report to only include books
+
 ```
 
