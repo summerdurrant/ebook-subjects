@@ -8,8 +8,6 @@ output: github_document
 library(tidyverse)
 ```
 
-
-
 ```{r}
 # import and combine monthly usage files
 files <- dir(path = "./usage-stats", full.names = TRUE)
@@ -26,6 +24,10 @@ tr <- files %>%
 
 ```{r}
 # filter title report to only include books
+tr_books <- tr %>%
+  filter(data_type == "Book") %>%
+  filter(metric_type == c("Unique_Title_Requests", "No_License", "Limit_Exceeded"))
+  
 
 ```
 
