@@ -1,4 +1,4 @@
-Ebook Subjects
+E-Book Subject Analysis
 ================
 
 ``` r
@@ -7,7 +7,7 @@ library(tidyverse)
 ```
 
 ``` r
-# import and combine monthly usage files
+# import and combine vendor usage files
 files <- dir(path = "./usage-stats", full.names = TRUE)
 headers <- c("title", "publisher", "publisher_id", "platform", "doi", 
                 "proprietary_id", "isbn", "print_issn", "online_issn", "uri", 
@@ -21,21 +21,22 @@ tr <- files %>%
 ```
 
 ``` r
-# filter title report to only include books
+# filter tr to include book format and relevant metrics
 tr_books <- tr %>%
-  filter(data_type == "Book")
-  
-tr_books_metrics <- tr_books %>%  
+  filter(data_type == "Book") %>%
   filter(metric_type %in% c("Unique_Title_Requests", "No_License", "Limit_Exceeded"))
-
-tr_books_metrics %>%
-  group_by(metric_type) %>%
-  summarize(sum(total), n())
 ```
 
-    ## # A tibble: 3 x 3
-    ##   metric_type           `sum(total)` `n()`
-    ##   <chr>                        <int> <int>
-    ## 1 Limit_Exceeded                 958    65
-    ## 2 No_License                    4143  2376
-    ## 3 Unique_Title_Requests        28184  6519
+``` r
+# create list of unique isbns
+tr_books <- tr_books %>%
+  mutate(isbn_norm = str_remove_all(isbn, "-"))
+
+unique_isbn <- tr_books %>%
+  select(isbn_norm) %>%
+  distinct(isbn_norm)
+
+n_distinct(unique_isbn)
+```
+
+    ## [1] 8442
