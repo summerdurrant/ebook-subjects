@@ -28,8 +28,11 @@ tr_books <- tr %>%
   filter(data_type == "Book")
   
 tr_books_metrics <- tr_books %>%  
-  filter(metric_type == "Unique_Title_Requests")
-  
+  filter(metric_type %in% c("Unique_Title_Requests", "No_License", "Limit_Exceeded"))
+
+tr_books_metrics %>%
+  group_by(metric_type) %>%
+  summarize(sum(total), n())
 
 ```
 

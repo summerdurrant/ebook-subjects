@@ -22,4 +22,20 @@ tr <- files %>%
 
 ``` r
 # filter title report to only include books
+tr_books <- tr %>%
+  filter(data_type == "Book")
+  
+tr_books_metrics <- tr_books %>%  
+  filter(metric_type %in% c("Unique_Title_Requests", "No_License", "Limit_Exceeded"))
+
+tr_books_metrics %>%
+  group_by(metric_type) %>%
+  summarize(sum(total), n())
 ```
+
+    ## # A tibble: 3 x 3
+    ##   metric_type           `sum(total)` `n()`
+    ##   <chr>                        <int> <int>
+    ## 1 Limit_Exceeded                 958    65
+    ## 2 No_License                    4143  2376
+    ## 3 Unique_Title_Requests        28184  6519
