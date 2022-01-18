@@ -7,24 +7,8 @@ library(tidyverse)
 ```
 
 ``` r
-# import and combine vendor usage files
-files <- dir(path = "./usage-stats", full.names = TRUE)
-headers <- c("title", "publisher", "publisher_id", "platform", "doi", 
-                "proprietary_id", "isbn", "print_issn", "online_issn", "uri", 
-                "data_type", "section_type", "yop", "access_type", 
-                "access_method","metric_type", "total")
-
-tr <- files %>%
-  map(read_csv, skip = 14, col_select = 1:17, col_names = headers, 
-      col_type = "cccccccccccciccci") %>%
-  reduce(bind_rows)
-```
-
-``` r
-# filter tr to include book format and relevant metrics
-tr_books <- tr %>%
-  filter(data_type == "Book") %>%
-  filter(metric_type %in% c("Unique_Title_Requests", "No_License", "Limit_Exceeded"))
+# import combine usage file
+tr_books <- read_csv("usage_stats.csv", show_col_types = FALSE)
 ```
 
 ``` r
@@ -39,4 +23,4 @@ unique_isbn <- tr_books %>%
 n_distinct(unique_isbn)
 ```
 
-    ## [1] 8442
+    ## [1] 9665
