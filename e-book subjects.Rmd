@@ -1,12 +1,14 @@
 ---
 title: "E-Book Subject Analysis"
 output: github_document
+always_allow_html: true
 ---
 
 ```{r message = FALSE}
 # load libraries
 library(tidyverse)
 library(formattable)
+library(kableExtra)
 ```
 
 ```{r}
@@ -49,9 +51,16 @@ write_csv(unique_isbn, "unique_isbn.csv")
 tr_books_usage <- tr_books %>%
   filter(metric == "Unique Title Requests")
 
+item_count_usage = nrow(tr_books_usage)
+unique_title_requests = sum(tr_books_usage$total)
+
 tr_books_usage %>%
   group_by(access_type) %>%
-  summarize(titles = n(), prop = n()/item_count)
+  summarize(titles = n(), pct_titles = percent(n()/item_count_usage),
+            usage = sum(total), pct_usage = percent(sum(total)/unique_title_requests)) %>%
+  kbl() %>%
+  kable_styling()
+
 ```
 
 
