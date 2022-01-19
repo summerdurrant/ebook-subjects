@@ -68,10 +68,10 @@ tr_books_usage %>%
   summarize(titles = n(), pct_titles = percent(n()/item_count_usage),
             usage = sum(total), pct_usage = percent(sum(total)/unique_title_requests)) %>%
   kbl() %>%
-  kable_styling()
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
