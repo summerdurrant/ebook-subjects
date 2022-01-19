@@ -4,6 +4,7 @@ E-Book Subject Analysis
 ``` r
 # load libraries
 library(tidyverse)
+library(formattable)
 ```
 
 ``` r
@@ -12,12 +13,21 @@ tr_books <- read_csv("usage_data.csv", show_col_types = FALSE)
 ```
 
 ``` r
-# calculate missing isbns
+# calculate number of missing isbns
 count_missing_isbn <- sum(is.na(tr_books$isbn))
 print(count_missing_isbn)
 ```
 
     ## [1] 266
+
+``` r
+# calculate proportion of missing isbns
+item_count <- nrow(tr_books)
+prop_missing_isbn <- count_missing_isbn / item_count
+print(percent(prop_missing_isbn))
+```
+
+    ## [1] 2.51%
 
 ``` r
 # create list of unique isbns
@@ -38,4 +48,13 @@ print(count_unique_isbn)
 ``` r
 # output cvs file with unique isbns
 write_csv(unique_isbn, "unique_isbn.csv")
+```
+
+# Summary Statistics
+
+``` r
+tr_books_usage <- tr_books %>%
+  filter(metric == "Unique Title Requests") %>%
+  group_by(access_type) %>%
+  summarize(sum = sum(total))
 ```

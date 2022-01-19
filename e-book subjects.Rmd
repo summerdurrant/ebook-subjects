@@ -6,6 +6,7 @@ output: github_document
 ```{r message = FALSE}
 # load libraries
 library(tidyverse)
+library(formattable)
 ```
 
 ```{r}
@@ -14,9 +15,14 @@ tr_books <- read_csv("usage_data.csv", show_col_types = FALSE)
 ```
 
 ```{r}
-# calculate missing isbns
+# calculate number of missing isbns
 count_missing_isbn <- sum(is.na(tr_books$isbn))
 print(count_missing_isbn)
+
+# calculate proportion of missing isbns
+item_count <- nrow(tr_books)
+prop_missing_isbn <- count_missing_isbn / item_count
+print(percent(prop_missing_isbn))
 
 # create list of unique isbns
 tr_books <- tr_books %>%
@@ -34,5 +40,13 @@ print(count_unique_isbn)
 write_csv(unique_isbn, "unique_isbn.csv")
 ```
 
+# Summary Statistics
+
+```{r}
+tr_books_usage <- tr_books %>%
+  filter(metric == "Unique Title Requests") %>%
+  group_by(access_type) %>%
+  summarize(sum = sum(total))
+```
 
 
