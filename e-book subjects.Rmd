@@ -1,14 +1,15 @@
 ---
 title: "E-Book Subject Analysis"
-output: github_document
-always_allow_html: true
+output: 
+  github_document:
+    html_preview: false
 ---
 
 ```{r message = FALSE}
 # load libraries
 library(tidyverse)
 library(formattable)
-library(kableExtra)
+library(knitr)
 ```
 
 ```{r}
@@ -56,10 +57,9 @@ unique_title_requests = sum(tr_books_usage$total)
 
 tr_books_usage %>%
   group_by(access_type) %>%
-  summarize(titles = n(), pct_titles = percent(n()/item_count_usage),
-            usage = sum(total), pct_usage = percent(sum(total)/unique_title_requests)) %>%
-  kbl() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+  summarize(titles = n(), pct_titles = n()/item_count_usage,
+            usage = sum(total), pct_usage = sum(total)/unique_title_requests)
+  
 
 ```
 

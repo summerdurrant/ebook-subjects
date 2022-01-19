@@ -5,7 +5,7 @@ E-Book Subject Analysis
 # load libraries
 library(tidyverse)
 library(formattable)
-library(kableExtra)
+library(knitr)
 ```
 
 ``` r
@@ -65,66 +65,12 @@ unique_title_requests = sum(tr_books_usage$total)
 
 tr_books_usage %>%
   group_by(access_type) %>%
-  summarize(titles = n(), pct_titles = percent(n()/item_count_usage),
-            usage = sum(total), pct_usage = percent(sum(total)/unique_title_requests)) %>%
-  kbl() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+  summarize(titles = n(), pct_titles = n()/item_count_usage,
+            usage = sum(total), pct_usage = sum(total)/unique_title_requests)
 ```
 
-<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-access_type
-</th>
-<th style="text-align:right;">
-titles
-</th>
-<th style="text-align:right;">
-pct_titles
-</th>
-<th style="text-align:right;">
-usage
-</th>
-<th style="text-align:right;">
-pct_usage
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Controlled
-</td>
-<td style="text-align:right;">
-7984
-</td>
-<td style="text-align:right;">
-99.32%
-</td>
-<td style="text-align:right;">
-31931
-</td>
-<td style="text-align:right;">
-99.77%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-OA Gold
-</td>
-<td style="text-align:right;">
-55
-</td>
-<td style="text-align:right;">
-0.68%
-</td>
-<td style="text-align:right;">
-74
-</td>
-<td style="text-align:right;">
-0.23%
-</td>
-</tr>
-</tbody>
-</table>
+    ## # A tibble: 2 x 5
+    ##   access_type titles pct_titles usage pct_usage
+    ##   <chr>        <int>      <dbl> <dbl>     <dbl>
+    ## 1 Controlled    7984    0.993   31931   0.998  
+    ## 2 OA Gold         55    0.00684    74   0.00231
