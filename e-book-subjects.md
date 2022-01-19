@@ -12,6 +12,8 @@ library(formattable)
 tr_books <- read_csv("usage_data.csv", show_col_types = FALSE)
 ```
 
+## Unique ISBNs
+
 ``` r
 # calculate number of missing isbns
 count_missing_isbn <- sum(is.na(tr_books$isbn))
@@ -50,11 +52,20 @@ print(count_unique_isbn)
 write_csv(unique_isbn, "unique_isbn.csv")
 ```
 
-# Summary Statistics
+## Summary Statistics
 
 ``` r
+# calculate titles and usage by access type
 tr_books_usage <- tr_books %>%
-  filter(metric == "Unique Title Requests") %>%
+  filter(metric == "Unique Title Requests")
+
+tr_books_usage %>%
   group_by(access_type) %>%
-  summarize(sum = sum(total))
+  summarize(titles = n(), prop = n()/item_count)
 ```
+
+    ## # A tibble: 2 x 3
+    ##   access_type titles    prop
+    ##   <chr>        <int>   <dbl>
+    ## 1 Controlled    7984 0.754  
+    ## 2 OA Gold         55 0.00520
